@@ -10,7 +10,7 @@ from rest_framework.permissions import BasePermission
 from .models import (
     Weekday, Room, Attendence,
     Group, StudentGroup, Lesson,
-    Homework,
+    Homework, 
 )
 from .serializers import (
     WeekDaySerializer, RoomSerializer,
@@ -60,6 +60,7 @@ class AdminHomeView(viewsets.ViewSet):
 
     def create(self, request):
         data = request.data
+        print(data)
 
 
 
