@@ -62,7 +62,7 @@ class AdminTeacherSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     profession = serializers.CharField(max_length=100, required=False)
     image = serializers.ImageField(required=False)
-    password = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = CustomUser
@@ -177,12 +177,13 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
     def update(self, instance, validated_data):
-        password = validated_data.pop("password", None)
+        
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
-        if password:
+        if validated_data.get('password', None):
+            password = validated_data['password']
             if instance.check_password(password):
                 raise serializers.ValidationError("New password cannot be same as old password.")
             instance.set_password(password)
