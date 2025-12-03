@@ -95,7 +95,12 @@ class AdminHomeView(viewsets.ViewSet):
 
         user = CustomUser.objects.get(id=admin_teacher_instance.user.id)
         user_data = data['user']
-        user_serializer = CustomUserSerializer(instance= user,data=user_data, partial=False)
+
+        if request.method == 'PUT':
+            user_serializer = CustomUserSerializer(instance= user,data=user_data, partial=False)
+
+        else:
+            user_serializer = CustomUserSerializer(instance= user,data=user_data, partial=True)
 
         if not user_serializer.is_valid():
             return Response(user_serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
